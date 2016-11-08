@@ -1,4 +1,4 @@
-console.log = function() {}
+//console.log = function() {}
 
 $(function(){
     
@@ -54,14 +54,27 @@ $(function(){
         console.log(canvasX + " " + canvasY);
         var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
         var pixel = imageData.data;
+        var argument = rgbToHex(pixel);
+        console.log(argument);
         console.log(pixel);
         var pixelColor = "rgb("+pixel[0]+", "+pixel[1]+", "+pixel[2]+")";
         $('html').css('backgroundColor', pixelColor);
-        /*$.ajax({
-            url: "https://www.google.be/",
+        $.ajax({
+            url: "http://localhost/color/" + argument,
             context: document.body
         }).done(function() {
             console.log("done");
-        });*/
+        });
+    }
+
+    //From http://stackoverflow.com/questions/5623838/rgb-to-hex-and-hex-to-rgb
+    function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+    }
+
+    function rgbToHex(pixel) {
+        console.log(pixel)
+        return componentToHex(pixel[0]) + componentToHex(pixel[1]) + componentToHex(pixel[2]);
     }
 });
