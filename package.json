@@ -1,0 +1,13 @@
+{
+  "name": "Colorpicker",
+  "version": "1.0.0",
+  "description": "Color picker",
+  "scripts": {
+    "dev": "lite-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lite-server": "^1.3.4"
+  }
+}
