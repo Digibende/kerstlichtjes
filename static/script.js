@@ -7,6 +7,7 @@ $(function(){
     canvas.attr('height', window.innerHeight);
     var ctx = canvas[0].getContext('2d');
     var image = new Image();
+    var color;
 
     draw(canvas, ctx);
     $( window ).resize(function() {
@@ -44,7 +45,12 @@ $(function(){
     $('#picker').bind('touchmove',function(e){
         console.log("drag");
         var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-        process(Math.round(touch.pageX), Math.round(touch.pageY));
+        //process(Math.round(touch.pageX), Math.round(touch.pageY));
+    });
+
+    $( "#picker" ).mouseup(function(e) {
+        console.log("up");
+        update();
     });
 
     function process(x, y){
@@ -54,13 +60,21 @@ $(function(){
         console.log(canvasX + " " + canvasY);
         var imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
         var pixel = imageData.data;
-        var argument = rgbToHex(pixel);
-        console.log(argument);
+        color = rgbToHex(pixel);
         console.log(pixel);
         var pixelColor = "rgb("+pixel[0]+", "+pixel[1]+", "+pixel[2]+")";
         $('html').css('backgroundColor', pixelColor);
+    }
+
+    function update() {
+        var location = document.location.href;
+        if( location.slice(-1) != '/') {
+            location = location + '/';
+        }
+        location = location + "color/" + color;
+        console.log(location);
         $.ajax({
-            url: "http://localhost/color/" + argument,
+            url: location,
             context: document.body
         }).done(function() {
             console.log("done");
