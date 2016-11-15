@@ -8,6 +8,7 @@ $(function(){
     var ctx = canvas[0].getContext('2d');
     var image = new Image();
     var color;
+    var height;
 
     draw(canvas, ctx);
     $( window ).resize(function() {
@@ -19,14 +20,16 @@ $(function(){
         console.log("resize");
         canvas.attr('width', largest);
         canvas.attr('height', largest);
-        var height = parseInt(canvas.attr("height"));
+        height = parseInt(canvas.attr("height"));
         image.onload = function(){
-            ctx.drawImage(image, 0, 0, height, height);
+            ctx.drawImage(image, 50, 50, height-100, height-100);
         };
-        image.src = 'static/colorwheel3.png';
-        /*ctx.beginPath();
-        ctx.arc(x,y,x+10,y+10,2*Math.PI);
-        ctx.stroke();*/
+        image.src = 'static/colorwheel4.png';
+        ctx.beginPath();
+        ctx.arc(height/2-50,height/2-50,height/2-50,0,2*Math.PI);
+        ctx.lineWidth = 50;
+        ctx.strokeStyle = 'green';
+        ctx.stroke();
     }
 
     $('#picker').mousedown(function(e) {
@@ -63,7 +66,12 @@ $(function(){
         color = rgbToHex(pixel);
         console.log(pixel);
         var pixelColor = "rgb("+pixel[0]+", "+pixel[1]+", "+pixel[2]+")";
-        $('html').css('backgroundColor', pixelColor);
+        
+        ctx.beginPath();
+        ctx.arc(height/2-50,height/2-50,height/2-50,0,2*Math.PI);
+        ctx.lineWidth = 50;
+        ctx.strokeStyle = pixelColor;
+        ctx.stroke();
     }
 
     function update() {
