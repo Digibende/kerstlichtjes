@@ -1,5 +1,12 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}This is an example page{% endblock %}
+
+{% block head %}
+{{super()}}
+<link rel="shortcut icon" type="image/x-icon" href="./static/favicon.ico">
+
+{% endblock %}
+
+{% block title %}Manage Kerstboomlichtjes{% endblock %}
 
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
@@ -9,7 +16,7 @@
 
 {% block content %}
     <div class="page-header">
-        <h1>Buttons</h1>
+        <h1>Kerstboomlichtjes</h1>
     </div>
     <p>
         {% for ip_address in ip_addresses %}
@@ -17,13 +24,21 @@
         {% endfor %}
     </p>
     <p>
-        <button type="button" class="btn btn-lg btn-default">Default</button>
-        <button type="button" class="btn btn-lg btn-primary">Primary</button>
-        <button type="button" class="btn btn-lg btn-success">Success</button>
-        <button type="button" class="btn btn-lg btn-info">Info</button>
-        <button type="button" class="btn btn-lg btn-warning">Warning</button>
-        <button type="button" class="btn btn-lg btn-danger">Danger</button>
-        <button type="button" class="btn btn-lg btn-link">Link</button>
+        <button type="button" id="startAudio" class="btn btn-lg btn-default">Start Audio</button>
+        <button type="button" id="killAudio" class="btn btn-lg btn-default">Kill Audio</button>
     </p>
+    {% block scripts %}
+    <script>
+        $( document ).ready(function() {
+            $( "#startAudio" ).click(function() {
+                $.ajax({url: "audio"});
+            });
+            $( "#killAudio" ).click(function() {
+                $.ajax({url: "killaudio"});
+            });
+        });
+    </script>
+    {{super()}}
+    {% endblock %}
 
 {% endblock %}

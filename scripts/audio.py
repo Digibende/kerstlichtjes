@@ -59,6 +59,7 @@ while True:
     floor = min(floor, rms)
     #floor = 50
     ceiling = max(ceiling, rms)
+    #ceiling = ceiling *.7
     #ceiling = 2000
     print(str(floor) + " "  + str(rms) + " " + str(ceiling))
     #0 - 599
@@ -69,7 +70,6 @@ while True:
     fraction = float(normal)/float(base)
     print(fraction)
     step = int(fraction * 599)
-    print("before")
     print(str(step))
     #step = 600
     for i in range(0, step):
@@ -79,7 +79,6 @@ while True:
     for i in range(step+1, strip.numPixels()):
         strip.setPixelColor(i, Color(0,0,128))
     strip.show()
-    print("after")
     #time.sleep(10)
 stream.stop_stream()
 stream.close()

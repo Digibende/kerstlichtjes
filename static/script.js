@@ -1,7 +1,7 @@
 //console.log = function() {}
 
 $(function(){
-    
+    var width = 100;
     var canvas = $('#picker');
     canvas.attr('width', window.innerWidth);
     canvas.attr('height', window.innerHeight);
@@ -16,43 +16,47 @@ $(function(){
     });
 
     function draw(canvas, ctx, x, y) {
-        var largest = Math.min(window.innerWidth, window.innerHeight);
+        var largest = Math.min(window.innerWidth, window.innerHeight) - 100;
         console.log("resize");
         canvas.attr('width', largest);
         canvas.attr('height', largest);
         height = parseInt(canvas.attr("height"));
         image.onload = function(){
-            ctx.drawImage(image, 50, 50, height-100, height-100);
+            ctx.drawImage(image, 85, 85, height-170, height-170);
         };
         image.src = 'static/colorwheel4.png';
         ctx.beginPath();
-        ctx.arc(height/2-50,height/2-50,height/2-50,0,2*Math.PI);
-        ctx.lineWidth = 50;
+        ctx.arc(height/2,height/2,height/2-50,0,2*Math.PI);
+        ctx.lineWidth = width;
         ctx.strokeStyle = 'green';
         ctx.stroke();
     }
 
-    $('#picker').mousedown(function(e) {
+    $( "#picker" ).mousedown(function(e) {
         process(e.pageX, e.pageY);
     });
-    $('#picker').mousemove(function(e) {
+    $( "#picker" ).mousemove(function(e) {
         if(e.buttons==1){
             process(e.pageX, e.pageY);
         }
     });
-    $("#picker").on("tap",function(){
+    $( "#picker" ).on("tap",function(){
         console.log("drag");
         var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
         process(Math.round(touch.pageX), Math.round(touch.pageY));
     });
-    $('#picker').bind('touchmove',function(e){
+    $( "#picker" ).bind('touchmove',function(e){
         console.log("drag");
         var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-        //process(Math.round(touch.pageX), Math.round(touch.pageY));
+        process(Math.round(touch.pageX), Math.round(touch.pageY));
+    });
+    $( "#picker" ).on("touchend", function(ev) {
+        console.log("touch end");
+        update();
     });
 
     $( "#picker" ).mouseup(function(e) {
-        console.log("up");
+        console.log("mouse up");
         update();
     });
 
@@ -68,8 +72,8 @@ $(function(){
         var pixelColor = "rgb("+pixel[0]+", "+pixel[1]+", "+pixel[2]+")";
         
         ctx.beginPath();
-        ctx.arc(height/2-50,height/2-50,height/2-50,0,2*Math.PI);
-        ctx.lineWidth = 50;
+        ctx.arc(height/2,height/2,height/2-50,0,2*Math.PI);
+        ctx.lineWidth = width;
         ctx.strokeStyle = pixelColor;
         ctx.stroke();
     }

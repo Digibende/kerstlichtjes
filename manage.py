@@ -5,6 +5,8 @@ import socket
 import subprocess
 
 from neopixel import *
+
+
 # LED strip configuration:
 LED_COUNT      = 600      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (must support PWM!).
@@ -15,6 +17,8 @@ LED_INVERT     = False   # True to invert the signal (when using NPN transistor 
 
 
 global audio_process
+global audio_running
+audio_running = False
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -36,15 +40,42 @@ def colorpicker():
 @app.route("/audio")
 def audio():
     global audio_process
-    audio_process = subprocess.Popen(["python","scripts/audio.py"])
+    global audio_running
+    if 'audio_process' in globals():
+        audio_process.kill()
+    audio_process = subprocess.Popen(["python","/home/pi/hue-clone/scripts/audio.py"])
+    audio_running = True
     return "started audio"
 
 
-@app.route("/audiokill")
-def audiokill():
+@app.route("/killaudio")
+def killaudio():
     global audio_process
+    global audio_running
     audio_process.kill()
+    audio_running = False
     return "killed audio"
+
+@app.route("/color/<hexcolor>")
+def color(hexcolor):
+    global audio_running
+    print(hexcolor)
+    rgbcolor = hex_to_rgb(hexcolor)
+    print(rgbcolor)
+    if not audio_running:
+        for i in range(strip.numPixels()):
+            strip.setPixelColor(i, Color(*rgb_to_grb(rgbcolor)))
+        strip.show()
+    return hexcolor
+
+
+def rgb_to_grb(value):
+    return (value[1], value[0], value[2])
+
+
+def hex_to_rgb(value):
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
 
 
 if __name__ == "__main__":
