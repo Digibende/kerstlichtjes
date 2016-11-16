@@ -60,7 +60,7 @@ while True:
     #floor = 50
     ceiling = max(ceiling, rms)
     #ceiling = ceiling *.7
-    #ceiling = 2000
+    ceiling = 2000
     print(str(floor) + " "  + str(rms) + " " + str(ceiling))
     #0 - 599
     normal = rms - floor
@@ -75,9 +75,9 @@ while True:
     for i in range(0, step):
     #for i in range(0, strip.numPixels()):
     #   #print(i)
-        strip.setPixelColor(i, Color(0,128,0))
+        strip.setPixelColor(i, Color(255,255,255))
     for i in range(step+1, strip.numPixels()):
-        strip.setPixelColor(i, Color(0,0,128))
+        strip.setPixelColor(i, Color(0,0,0))
     strip.show()
     #time.sleep(10)
 stream.stop_stream()

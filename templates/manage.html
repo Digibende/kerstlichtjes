@@ -26,6 +26,7 @@
     <p>
         <button type="button" id="startAudio" class="btn btn-lg btn-default">Start Audio</button>
         <button type="button" id="killAudio" class="btn btn-lg btn-default">Kill Audio</button>
+        <button type="button" id="kill" class="btn btn-lg btn-default">Kill lights</button>
     </p>
     {% block scripts %}
     <script>
@@ -35,6 +36,9 @@
             });
             $( "#killAudio" ).click(function() {
                 $.ajax({url: "killaudio"});
+            });
+            $( "#kill" ).click(function() {
+                $.ajax({url: "kill"});
             });
         });
     </script>
